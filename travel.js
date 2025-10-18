@@ -54,8 +54,24 @@ async function performSearch() {
   }
 
   try {
-    const response = await fetch("travel_recommendation_api.json");
+    // Try different path variations
+    let response;
+
+    // Option 1: Try with ./ prefix
+    try {
+      response = await fetch("./travel.json");
+      if (!response.ok) throw new Error("Response not ok");
+    } catch (err) {
+      // Option 2: Try without ./ prefix
+      response = await fetch("travel.json");
+    }
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
+    console.log("Data loaded successfully:", data);
 
     let results = [];
 
@@ -88,45 +104,50 @@ async function performSearch() {
   } catch (error) {
     console.error("Error fetching recommendations:", error);
     recommendationsResults.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #e74c3c;">
-                <h3>Error loading recommendations</h3>
-                <p>Please try again later.</p>
-            </div>
-        `;
+      <div style="text-align: center; padding: 40px; color: #e74c3c;">
+        <h3>Error loading recommendations</h3>
+        <p>Could not load travel.json file. Please check:</p>
+        <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+          <li>The file is named "travel.json"</li>
+          <li>It's in the same folder as your HTML file</li>
+          <li>You're running on a local server (not opening file directly)</li>
+        </ul>
+      </div>
+    `;
   }
 }
 
 function displayResults(results, query) {
   if (results.length === 0) {
     recommendationsResults.innerHTML = `
-            <div style="text-align: center; padding: 40px;">
-                <h3 style="color: #2c3e50;">No results found for "${query}"</h3>
-                <p style="color: #666;">Try searching for "beach", "temple", or a country name like "Australia", "Japan", or "Brazil".</p>
-            </div>
-        `;
+      <div style="text-align: center; padding: 40px;">
+        <h3 style="color: #2c3e50;">No results found for "${query}"</h3>
+        <p style="color: #666;">Try searching for "beach", "temple", or a country name like "Australia", "Japan", or "Brazil".</p>
+      </div>
+    `;
     return;
   }
 
   const resultsHTML = `
-        <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Recommendations for "${query}"</h2>
-        <div class="recommendation-grid">
-            ${results
-              .map(
-                (item) => `
-                <div class="recommendation-card">
-                    <img src="${getImageUrl(item.imageUrl, item.name)}" alt="${
-                  item.name
-                }" class="recommendation-image">
-                    <div class="recommendation-content">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                    </div>
-                </div>
-            `
-              )
-              .join("")}
-        </div>
-    `;
+    <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Recommendations for "${query}"</h2>
+    <div class="recommendation-grid">
+      ${results
+        .map(
+          (item) => `
+          <div class="recommendation-card">
+            <img src="${getImageUrl(item.imageUrl, item.name)}" alt="${
+            item.name
+          }" class="recommendation-image">
+            <div class="recommendation-content">
+              <h3>${item.name}</h3>
+              <p>${item.description}</p>
+            </div>
+          </div>
+        `
+        )
+        .join("")}
+    </div>
+  `;
 
   recommendationsResults.innerHTML = resultsHTML;
 }
@@ -174,39 +195,11 @@ contactForm.addEventListener("submit", (e) => {
   contactForm.reset();
 });
 
-// Optional: Add sample images for demonstration
-// This would be used if you want to provide default images
-const sampleImages = {
-  "Sydney, Australia":
-    "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Melbourne, Australia":
-    "https://images.unsplash.com/photo-1545044846-351ba102b6d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Tokyo, Japan":
-    "https://images.unsplash.com/photo-1540959733332-4abcb85ecc4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Kyoto, Japan":
-    "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Rio de Janeiro, Brazil":
-    "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "São Paulo, Brazil":
-    "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Angkor Wat, Cambodia":
-    "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Taj Mahal, India":
-    "https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Bora Bora, French Polynesia":
-    "https://images.unsplash.com/photo-1518638150340-f706e86654de?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-  "Copacabana Beach, Brazil":
-    "https://images.unsplash.com/photo-1590650046871-92c887180603?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
-};
-
 // Initialize page
 showPage("home");
 
 // Add some sample search suggestions
 document.addEventListener("DOMContentLoaded", function () {
-  // You can add search suggestions here if needed
   console.log("TravelBloom website loaded successfully!");
-
-  // Example: Add placeholder text with examples
   searchInput.placeholder = "Try: beach, temple, Australia, Japan, Brazil...";
 });
