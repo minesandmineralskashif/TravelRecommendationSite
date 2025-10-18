@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelBloom - Discover Your Next Adventure</title>
+    <link rel="stylesheet" href="travel_recommendation.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="logo">
+        <span class="logo-icon">✈️</span>
+        <h1>TravelBloom</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#" id="home-link">Home</a></li>
+        <li><a href="#" id="about-link">About Us</a></li>
+        <li><a href="#" id="contact-link">Contact Us</a></li>
+      </ul>
+      <div class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search beaches, temples, countries..."
+        />
+        <button id="search-btn">Search</button>
+        <button id="reset-btn" class="reset-btn">Reset</button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content">
+      <!-- Home Page -->
+      <section id="home-page" class="page active">
+        <div class="home-section">
+          <h1>EXPLORE<br />DREAM<br />DESTINATION</h1>
+          <p>
+            Discover the world's most beautiful places with TravelBloom. From
+            pristine beaches to ancient temples and vibrant cities, we help you
+            find your perfect getaway.
+          </p>
+          <div class="social-icons">
+            <a href="#"><span>📘</span></a>
+            <a href="#"><span>📷</span></a>
+            <a href="#"><span>🐦</span></a>
+            <a href="#"><span>📺</span></a>
+          </div>
+        </div>
+        <div
+          id="recommendations-results"
+          class="recommendations-container"
+        ></div>
+      </section>
+
+      <!-- About Us Page -->
+      <section id="about-page" class="page">
+        <div class="about-section">
+          <h1>About Us</h1>
+          <p>
+            Welcome to TravelBloom, your trusted partner in discovering the
+            world's most amazing destinations. We are passionate about travel
+            and dedicated to helping you create unforgettable memories.
+          </p>
+
+          <div class="team-section">
+            <h2>Our Team</h2>
+            <div class="team-members">
+              <div class="team-member">
+                <h3>Sarah Johnson</h3>
+                <p>CEO & Founder</p>
+                <p>
+                  With over 15 years in the travel industry, Sarah leads our
+                  vision to make travel accessible to everyone.
+                </p>
+              </div>
+              <div class="team-member">
+                <h3>Michael Chen</h3>
+                <p>Head of Operations</p>
+                <p>
+                  Michael ensures every aspect of your travel planning is
+                  seamless and enjoyable.
+                </p>
+              </div>
+              <div class="team-member">
+                <h3>Emily Rodriguez</h3>
+                <p>Travel Expert</p>
+                <p>
+                  Emily's extensive travel experience helps curate the best
+                  recommendations for our clients.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Us Page -->
+      <section id="contact-page" class="page">
+        <div class="contact-section">
+          <h1>Contact Us</h1>
+          <p>Have questions or need assistance? We'd love to hear from you!</p>
+
+          <form id="contact-form" class="contact-form">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message:</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="travel.js"></script>
+  </body>
+</html>
