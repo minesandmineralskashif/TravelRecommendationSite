@@ -54,17 +54,8 @@ async function performSearch() {
   }
 
   try {
-    // Try different path variations
-    let response;
-
-    // Option 1: Try with ./ prefix
-    try {
-      response = await fetch("./travel.json");
-      if (!response.ok) throw new Error("Response not ok");
-    } catch (err) {
-      // Option 2: Try without ./ prefix
-      response = await fetch("travel.json");
-    }
+    // For GitHub Pages - use relative path
+    const response = await fetch("./travel.json");
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -105,13 +96,8 @@ async function performSearch() {
     console.error("Error fetching recommendations:", error);
     recommendationsResults.innerHTML = `
       <div style="text-align: center; padding: 40px; color: #e74c3c;">
-        <h3>Error loading recommendations</h3>
-        <p>Could not load travel.json file. Please check:</p>
-        <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-          <li>The file is named "travel.json"</li>
-          <li>It's in the same folder as your HTML file</li>
-          <li>You're running on a local server (not opening file directly)</li>
-        </ul>
+        <h3>Error loading travel data</h3>
+        <p>Please make sure travel.json file exists in the repository.</p>
       </div>
     `;
   }
